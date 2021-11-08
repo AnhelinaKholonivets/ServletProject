@@ -3,19 +3,16 @@ package com.lnko.model.dao;
 import com.lnko.model.dao.impl.JDBCDaoFactory;
 
 public abstract class DaoFactory {
-    private static DaoFactory daoFactory;
 
     public abstract TariffDao createTariffDao();
     public abstract UserDao createUserDao();
+    public abstract OrderDao createOrderDao();
+
+    private static final class DaoFactoryHolder {
+        static final DaoFactory daoFactory = new JDBCDaoFactory();
+    }
 
     public static DaoFactory getInstance(){
-        if( daoFactory == null ){
-            synchronized (DaoFactory.class){
-                if(daoFactory==null){
-                    daoFactory = new JDBCDaoFactory();
-                }
-            }
-        }
-        return daoFactory;
+        return DaoFactoryHolder.daoFactory;
     }
 }

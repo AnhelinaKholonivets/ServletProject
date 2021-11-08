@@ -6,24 +6,15 @@
 <fmt:setLocale value="${param.lang}"/>
 <fmt:setBundle basename="messages"/>
 
-<html>
+<html lang="${param.lang}">
 <head>
     <title>
         <fmt:message key="tariff.all"/>
     </title>
-    <style>
-        .page-container {
-            margin-left: auto;
-            margin-right: auto;
-            width: 70%;
-        }
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
 </head>
 <body>
 
-<jsp:include page="/header.jsp"/>
+<jsp:include page="/WEB-INF/admin/header.jsp"/>
 
 <div class="page-container">
 
@@ -33,23 +24,25 @@
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col"><fmt:message key="product"/></th>
-            <th scope="col"><a><fmt:message key="tariff"/></a></th>
-            <th scope="col"><a><fmt:message key="price"/></a></th>
+            <th scope="col"><fmt:message key="user.firstName"/></th>
+            <th scope="col"><fmt:message key="user.lastName"/></th>
+            <th scope="col"><a><fmt:message key="email"/></a></th>
+            <th scope="col"><a><fmt:message key="user.balance"/></a></th>
             <th scope="col"><fmt:message key="currency"/></th>
+            <th scope="col"><fmt:message key="user.block"/></th>
         </tr>
         </thead>
         <tbody>
         <tr>
             <c:forEach var="user" items="${users}">
                 <td>1</td>
-                <td>${user.firstname}</td>
-                <td>${user.lastname}</td>
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
                 <td>${user.email}</td>
                 <td>${user.balance}</td>
+                <td>UAH</td>
                 <td>${user.blocked}</td>
             </c:forEach>
-            <td>UAH</td>
         </tr>
         </tbody>
     </table>

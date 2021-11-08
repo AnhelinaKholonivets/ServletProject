@@ -10,7 +10,7 @@
   <packaging>war</packaging>
 
   <name>Servlet Maven Webapp</name>
-  <url>http://www.example.com</url>
+  <url>https://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

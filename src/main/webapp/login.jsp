@@ -4,7 +4,7 @@
 <fmt:setLocale value="${param.lang}"/>
 <fmt:setBundle basename="messages"/>
 
-<html>
+<html lang="${param.lang}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,7 @@
     </title>
 </head>
 <body>
-<jsp:include page="header.jsp"/>
+<jsp:include page="WEB-INF/header.jsp"/>
 
 <div class="page-container">
     <main class="form-signin">

@@ -10,6 +10,7 @@ public class User {
     private String password;
     private BigDecimal balance;
     private Boolean blocked;
+    private String role;
 
     public String getRole() {
         return role;
@@ -18,8 +19,6 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
-    private String role;
 
     public Long getId() {
         return id;

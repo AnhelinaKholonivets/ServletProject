@@ -39,9 +39,4 @@ public class Tariff {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
-
-    @Override
-    public String toString() {
-        return id + " " + product.getName() + " " + name + " " + price;
-    }
 }

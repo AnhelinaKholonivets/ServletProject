@@ -1,44 +1,56 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page isELIgnored="false" %>
 
 <fmt:setLocale value="${param.lang}"/>
 <fmt:setBundle basename="messages"/>
 
-<html>
+<html lang="${param.lang}">
 <head>
     <title>
-        <fmt:message key="tariff.all"/>
+        <fmt:message key="order.all"/>
     </title>
 </head>
 <body>
-
-<jsp:include page="/WEB-INF/user/header.jsp"/>
+<jsp:include page="/WEB-INF/admin/header.jsp"/>
 
 <div class="page-container">
 
-        <h1><fmt:message key="tariff.all"/></h1>
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="d-inline">
+            <h1><fmt:message key="order.all"/></h1>
+        </div>
+        <div class="d-inline ">
+            <a class="btn btn-success"
+               href="${pageContext.request.contextPath}/tariffs/addTariff" role="button">
+                <fmt:message key="tariff.add"/>
+            </a>
+        </div>
+    </div>
 
     <table class="table table-striped table-hover">
         <thead>
         <tr>
             <th scope="col">#</th>
+            <th scope="col"><fmt:message key="email"/></th>
             <th scope="col"><fmt:message key="product"/></th>
-            <th scope="col"><a><fmt:message key="tariff"/></a></th>
-            <th scope="col"><a><fmt:message key="price"/></a></th>
+            <th scope="col"><fmt:message key="tariff"/></th>
+            <th scope="col"><fmt:message key="price"/></th>
             <th scope="col"><fmt:message key="currency"/></th>
+            <th scope="col"><fmt:message key="datetime"/></th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <c:forEach var="tariff" items="${tariffs}">
+            <c:forEach var="order" items="${orders}">
                 <td>1</td>
-                <td>${tariff.product.name}</td>
-                <td>${tariff.name}</td>
-                <td>${tariff.price}</td>
+                <td>${order.user.email}</td>
+                <td>${order.tariff.product.name}</td>
+                <td>${order.tariff.name}</td>
+                <td>${order.tariff.price}</td>
+                <td>UAH</td>
+                <td>${order.dateTime}</td>
             </c:forEach>
-            <td>UAH</td>
         </tr>
         </tbody>
     </table>
@@ -54,7 +66,7 @@
     <%--                   th:text="${pageNumber}"></a></li>--%>
     <%--        </ul>--%>
     <%--    </nav>--%>
+
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
