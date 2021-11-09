@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCUserDao implements UserDao {
-    private static final String SELECT_USER_BY_ID = "select * from users where id = ?";
-    private static final String SELECT_USER_BY_LOGIN = "select * from users where email = ?";
+    private static final String SELECT_USER_BY_ID_QUERY = "select * from users where id = ?";
+    private static final String SELECT_USER_BY_LOGIN_QUERY = "select * from users where email = ?";
     private static final String SELECT_ALL_QUERY = "select * from users";
-    private static final String CREATE_USER = "insert into users (first_name, last_name, email, password, balance, blocked, role)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String CREATE_USER_QUERY = "insert into users (first_name, last_name, email, " +
+            "password, balance, blocked, role) " +
+            "values (?, ?, ?, ?, ?, ?, ?)";
 
     private final Connection connection;
 
@@ -25,16 +26,16 @@ public class JDBCUserDao implements UserDao {
     @Override
     public void create(User user) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER);
-            preparedStatement.setString(1, user.getFirstName());
-            preparedStatement.setString(2, user.getLastName());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getPassword());
-            preparedStatement.setBigDecimal(5, user.getBalance());
-            preparedStatement.setBoolean(6, false);
-            preparedStatement.setString(7, Role.USER.toString());
-        } catch (Exception ex) {
-            //   log.info("{Error save user}");
+            PreparedStatement ps = connection.prepareStatement(CREATE_USER_QUERY);
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPassword());
+            ps.setBigDecimal(5, user.getBalance());
+            ps.setBoolean(6, false);
+            ps.setString(7, Role.USER.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -42,11 +43,13 @@ public class JDBCUserDao implements UserDao {
     public User findByLogin(String login) {
         User user = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_LOGIN);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_LOGIN_QUERY);
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            user = mapResultSet(resultSet);
+            while (resultSet.next()) {
+                user = mapResultSet(resultSet);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,11 +62,13 @@ public class JDBCUserDao implements UserDao {
         User user = null;
         try {
             Connection conn = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement = conn.prepareStatement(SELECT_USER_BY_ID);
+            PreparedStatement preparedStatement = conn.prepareStatement(SELECT_USER_BY_ID_QUERY);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            user = mapResultSet(resultSet);
+            while (resultSet.next()) {
+                user = mapResultSet(resultSet);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,9 +80,9 @@ public class JDBCUserDao implements UserDao {
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
-            statement.executeQuery(SELECT_ALL_QUERY);
-            ResultSet resultSet = statement.getResultSet();
+            Statement st = connection.createStatement();
+            st.executeQuery(SELECT_ALL_QUERY);
+            ResultSet resultSet = st.getResultSet();
 
             while (resultSet.next()) {
                 users.add(mapResultSet(resultSet));
@@ -90,7 +95,7 @@ public class JDBCUserDao implements UserDao {
     }
 
     @Override
-    public void update(User entity) {
+    public void update(User user) {
 
     }
 
@@ -108,25 +113,21 @@ public class JDBCUserDao implements UserDao {
         }
     }
 
-    private User mapResultSet(ResultSet resultSet) {
+    private User mapResultSet(ResultSet resultSet) throws SQLException {
         if (resultSet == null) {
             return null;
         }
         User user = new User();
-        try {
-            while (resultSet.next()) {
-                user.setId(resultSet.getLong("id"));
-                user.setFirstName(resultSet.getString("first_name"));
-                user.setLastName(resultSet.getString("last_name"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("password"));
-                user.setBalance(resultSet.getBigDecimal("balance"));
-                user.setBlocked(resultSet.getBoolean("blocked"));
-                user.setRole(resultSet.getString("role"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        user.setId(resultSet.getLong("id"));
+        user.setFirstName(resultSet.getString("first_name"));
+        user.setLastName(resultSet.getString("last_name"));
+        user.setEmail(resultSet.getString("email"));
+        user.setPassword(resultSet.getString("password"));
+        user.setBalance(resultSet.getBigDecimal("balance"));
+        user.setBlocked(resultSet.getBoolean("blocked"));
+        user.setRole(resultSet.getString("role"));
+
         return user;
     }
 }

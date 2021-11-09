@@ -52,7 +52,7 @@
         </div>
     </div>
     <br>
-    <a class="btn btn-success btn-lg" href="${pageContext.request.contextPath}/app/orders/new" role="button">
+    <a class="btn btn-success btn-lg" href="${pageContext.request.contextPath}/app/user/orders/addOrder" role="button">
         <fmt:message key="order.new"/>
     </a>
 

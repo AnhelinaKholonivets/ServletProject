@@ -4,16 +4,18 @@ import com.lnko.model.dao.TariffDao;
 import com.lnko.model.entity.Product;
 import com.lnko.model.entity.Tariff;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 public class JDBCTariffDao implements TariffDao {
     private static final String SELECT_ALL_QUERY
             = "select * from tariffs join products p on p.id = tariffs.product_id";
+    private static final String SELECT_ALL_BY_IDS_QUERY
+            = "select * from tariffs join products p on p.id = tariffs.product_id where tariffs.id in (?)";
     private static final String SELECT_BY_ID_QUERY
             = "select * from tariffs join products p on p.id = tariffs.product_id where tariffs.id = ?";
     private static final String DELETE_TARIFF_BY_ID_QUERY = "delete from tariffs where id = ?";
@@ -28,25 +30,25 @@ public class JDBCTariffDao implements TariffDao {
 
     @Override
     public void create(Tariff tariff) {
-       try {
-           PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TARIFF_QUERY);
-           preparedStatement.setLong(1, tariff.getId());
-           preparedStatement.setString(2, tariff.getName());
-           preparedStatement.setLong(3, tariff.getProduct().getId());
-           preparedStatement.setBigDecimal(4, tariff.getPrice());
+        try {
+            PreparedStatement ps = connection.prepareStatement(INSERT_TARIFF_QUERY);
+            ps.setLong(1, tariff.getId());
+            ps.setString(2, tariff.getName());
+            ps.setLong(3, tariff.getProduct().getId());
+            ps.setBigDecimal(4, tariff.getPrice());
 
-       } catch (SQLException e) {
-           e.printStackTrace();
-       }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Tariff findById(Long id) {
         Tariff tariff = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_QUERY);
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            PreparedStatement ps = connection.prepareStatement(SELECT_BY_ID_QUERY);
+            ps.setLong(1, id);
+            ResultSet resultSet = ps.executeQuery();
 
             tariff = mapResultSet(resultSet);
 
@@ -59,8 +61,39 @@ public class JDBCTariffDao implements TariffDao {
     @Override
     public List<Tariff> findAll() {
         List<Tariff> tariffs = new ArrayList<>();
-        try(PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_QUERY)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try {
+            PreparedStatement ps = connection.prepareStatement(SELECT_ALL_QUERY);
+            ResultSet resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+                tariffs.add(mapResultSet(resultSet));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tariffs;
+    }
+
+    @Override
+    public List<Tariff> findAllByIds(List<Long> tariffsIds) {
+        List<Tariff> tariffs = new ArrayList<>();
+
+        try{
+            String queryParams = tariffsIds
+                    .stream()
+                    .map(i -> "?")
+                    .collect(Collectors.joining(","));
+
+            String modifiedQuery = SELECT_ALL_BY_IDS_QUERY.replace("?", queryParams);
+
+            PreparedStatement ps = connection.prepareStatement(modifiedQuery);
+           for (int i = 1; i <= tariffsIds.size(); i++) {
+               ps.setLong(i, tariffsIds.get(i - 1));
+           }
+
+            ResultSet resultSet = ps.executeQuery();
 
             while (resultSet.next()) {
                 tariffs.add(mapResultSet(resultSet));
@@ -81,39 +114,35 @@ public class JDBCTariffDao implements TariffDao {
     @Override
     public void delete(Long id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TARIFF_BY_ID_QUERY);
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            PreparedStatement ps = connection.prepareStatement(DELETE_TARIFF_BY_ID_QUERY);
+            ps.setLong(1, id);
+            ResultSet resultSet = ps.executeQuery();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    private Tariff mapResultSet(ResultSet resultSet) {
+    private Tariff mapResultSet(ResultSet resultSet) throws SQLException {
         if (resultSet == null) {
             return null;
         }
+
         Tariff tariff = new Tariff();
-        try {
-            while (resultSet.next()) {
-                tariff.setId(resultSet.getLong("tariffs.id"));
-                tariff.setName(resultSet.getString("tariffs.name"));
-                Product product = new Product();
-                product.setId(resultSet.getLong("p.id"));
-                product.setName(resultSet.getString("p.name"));
-                tariff.setProduct(product);
-                tariff.setPrice(resultSet.getBigDecimal("price"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        tariff.setId(resultSet.getLong("tariffs.id"));
+        tariff.setName(resultSet.getString("tariffs.name"));
+        Product product = new Product();
+        product.setId(resultSet.getLong("p.id"));
+        product.setName(resultSet.getString("p.name"));
+        tariff.setProduct(product);
+        tariff.setPrice(resultSet.getBigDecimal("price"));
+
         return tariff;
     }
 
     @Override
-    public void close()  {
+    public void close() {
         try {
             connection.close();
         } catch (SQLException e) {

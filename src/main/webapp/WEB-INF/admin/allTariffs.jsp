@@ -54,19 +54,20 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <c:forEach var="tariff" items="${tariffs}">
+        <c:forEach var="tariff" items="${tariffs}">
+            <tr>
                 <td>1</td>
                 <td>${tariff.product.name}</td>
                 <td>${tariff.name}</td>
                 <td>${tariff.price}</td>
-            </c:forEach>
-            <td>UAH</td>
-            <td><a class="btn-outline-danger text-decoration-none"
-                   onclick="deleteRequest(this.id)">
-                <fmt:message key="delete"/>
-            </a></td>
-        </tr>
+                <td>UAH</td>
+                <td><a class="btn-outline-danger text-decoration-none"
+                       onclick="deleteRequest(this.id)">
+                    <fmt:message key="delete"/>
+                </a></td>
+
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 

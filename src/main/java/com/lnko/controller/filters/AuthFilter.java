@@ -27,6 +27,7 @@ public class AuthFilter implements Filter {
         if (userRole == null || userRole.equals("")) {
             userRole = "";
         }
+
         if (checkAccess(currentUri, getAccessList(userRole.toString()))) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
@@ -39,8 +40,8 @@ public class AuthFilter implements Filter {
     }
 
     private List<String> getAccessList(String role) {
-        List<String> adminAccess = Arrays.asList("/tariffs", "/orders", "/users", "/", "/home");
-        List<String> userAccess = Arrays.asList("/tariffs", "/orders", "/profile", "/", "/home");
+        List<String> adminAccess = Arrays.asList("/admin/tariffs", "/admin/orders", "/admin/users", "/", "/home", "admin/tariffs/addTariff");
+        List<String> userAccess = Arrays.asList("/user/tariffs", "/user/orders", "/user/profile", "/", "/home", "/user/orders/addOrder");
         List<String> unknownAccess = Arrays.asList("/login", "/", "/home");
 
         if (role.equals(Role.ADMIN.toString())) {

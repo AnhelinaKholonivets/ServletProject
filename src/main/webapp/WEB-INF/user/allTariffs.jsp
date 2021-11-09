@@ -31,15 +31,15 @@
         </tr>
         </thead>
         <tbody>
+        <c:forEach var="tariff" items="${tariffs}">
         <tr>
-            <c:forEach var="tariff" items="${tariffs}">
                 <td>1</td>
                 <td>${tariff.product.name}</td>
                 <td>${tariff.name}</td>
                 <td>${tariff.price}</td>
-            </c:forEach>
             <td>UAH</td>
         </tr>
+        </c:forEach>
         </tbody>
     </table>
 

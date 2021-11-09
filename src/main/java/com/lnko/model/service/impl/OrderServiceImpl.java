@@ -2,11 +2,17 @@ package com.lnko.model.service.impl;
 
 import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.dao.OrderDao;
+import com.lnko.model.dao.TariffDao;
+import com.lnko.model.dao.UserDao;
 import com.lnko.model.entity.Order;
+import com.lnko.model.entity.Tariff;
 import com.lnko.model.entity.User;
 import com.lnko.model.service.OrderService;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderServiceImpl implements OrderService {
     DaoFactory daoFactory = DaoFactory.getInstance();
@@ -26,8 +32,30 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> saveNewOrders(List<Long> tariffsIds, Long userId) {
-        return null;
+    public void saveNewOrders(List<Long> tariffsIds, Long userId) {
+        try (OrderDao orderDao = daoFactory.createOrderDao();
+             TariffDao tariffDao = daoFactory.createTariffDao();
+             UserDao userDao = daoFactory.createUserDao()) {
+
+            List<Tariff> tariffs = tariffDao.findAllByIds(tariffsIds);
+
+            BigDecimal orderPrice = tariffs.stream()
+                    .map(Tariff::getPrice)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            User user = userDao.findById(userId);
+
+            if (user.getBalance().compareTo(orderPrice) < 0) {
+                throw new LowBalanceException();
+            }
+            user.setBalance(user.getBalance().subtract(orderPrice));
+            List<Order> orders = tariffs
+                    .stream()
+                    .map(tariff -> new Order(null, user, tariff, LocalDateTime.now()))
+                    .collect(Collectors.toList());
+
+            orderDao.saveAllOrders(user, orders);
+        }
     }
 
 }

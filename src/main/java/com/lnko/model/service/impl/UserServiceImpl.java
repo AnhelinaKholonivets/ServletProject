@@ -28,13 +28,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public void refileBalance(Long id, BigDecimal addBalance) {
         try (UserDao dao = daoFactory.createUserDao()) {
-           // dao.update(user);
+            User user = dao.findById(id);
+            user.setBalance(user.getBalance().add(addBalance));
+            dao.update(user);
         }
     }
 
     @Override
     public void blockUser(Long id) {
-
+        try (UserDao dao = daoFactory.createUserDao()) {
+            User user = dao.findById(id);
+            user.setBlocked(!user.getBlocked());
+            dao.update(user);
+        }
     }
 
     @Override

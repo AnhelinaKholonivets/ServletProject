@@ -27,7 +27,7 @@
             margin: auto;
         }
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="<c:url value='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'/>"
           rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
@@ -42,14 +42,14 @@
                 <li><a href="${pageContext.request.contextPath}/app/home" class="nav-link px-2 text-white">
                     <fmt:message key="header.home"/>
                 </a></li>
-                <li><a href="${pageContext.request.contextPath}/app/tariffs" class="nav-link px-2 text-white">
+                <li><a href="${pageContext.request.contextPath}/app/admin/tariffs" class="nav-link px-2 text-white">
                     <fmt:message key="header.tariffs"/>
                 </a></li>
                 <li>
-                    <a href="${pageContext.request.contextPath}/app/users" class="nav-link px-2 text-white">
+                    <a href="${pageContext.request.contextPath}/app/admin/users" class="nav-link px-2 text-white">
                         <fmt:message key="header.users"/>
                     </a></li>
-                <li><a href="${pageContext.request.contextPath}/app/orders" class="nav-link px-2 text-white">
+                <li><a href="${pageContext.request.contextPath}/app/admin/orders" class="nav-link px-2 text-white">
                     <fmt:message key="header.orders"/>
                 </a></li>
             </ul>

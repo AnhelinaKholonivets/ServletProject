@@ -4,14 +4,14 @@ use servlet_test_db;
 
 create table products
 (
-    id      bigint auto_increment primary key,
+    id   bigint auto_increment primary key,
     name varchar(255) null
 );
 
 create table tariffs
 (
     id         bigint auto_increment primary key,
-    name     varchar(255) not null,
+    name       varchar(255) not null,
     product_id bigint       not null,
     price      decimal      null,
     constraint tariffs_ibfk_1
@@ -26,7 +26,7 @@ create table users
     last_name  varchar(50)  null,
     email      varchar(255) not null,
     password   varchar(255) not null,
-    balance    decimal      null,
+    balance    decimal      null default 0,
     blocked    boolean      not null,
     role       varchar(10)  not null
 );
@@ -53,10 +53,12 @@ create index user_id
     on orders (user_id);
 
 INSERT INTO servlet_test_db.users (first_name, last_name, email, password, balance, blocked, role)
-VALUES ('admin', 'admin', 'admin@mail.com', '$2a$12$NXMOVsS3DoxdLfu7uKX.NeGFdYSPJfnwGQ2F5A17kBwH1Ff8izGoC', 0, 0, 'ROLE_ADMIN');
+VALUES ('admin', 'admin', 'admin@mail.com', '$2a$12$NXMOVsS3DoxdLfu7uKX.NeGFdYSPJfnwGQ2F5A17kBwH1Ff8izGoC', 0, 0,
+        'ROLE_ADMIN');
 
 INSERT INTO servlet_test_db.users (first_name, last_name, email, password, balance, blocked, role)
-VALUES ('user', 'user', 'user@mail.com', '$2a$12$M7TfQ/SYZ9m8R8GrM58qDe92jXB2GN/SBumcjc92OndLu1ret/sMq', 0, 0, 'ROLE_USER');
+VALUES ('user', 'user', 'user@mail.com', '$2a$12$M7TfQ/SYZ9m8R8GrM58qDe92jXB2GN/SBumcjc92OndLu1ret/sMq', 0, 0,
+        'ROLE_USER');
 
 INSERT INTO servlet_test_db.products (name)
 VALUES ('PHONE');

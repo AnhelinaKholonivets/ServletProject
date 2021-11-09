@@ -48,11 +48,11 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white"
                        href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">
-                        <fmt:message key="${pageContext.request.locale.language}"/>
+                        <c:out value="${pageContext.request.locale.language}"/>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown01">
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}?lang=en_EN">EN</a></li>
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}?lang=ua_UA">UA</a></li>
+                        <li><a class="dropdown-item" <fmt:setLocale value="en_EN" scope="session"/> href="${pageContext.request.contextPath}?lang=en_EN">EN</a></li>
+                        <li><a class="dropdown-item" <fmt:setLocale value="ua_UA" scope="session"/> href="${pageContext.request.contextPath}?lang=ua_UA">UA</a></li>
                     </ul>
                 </li>
             </ul>

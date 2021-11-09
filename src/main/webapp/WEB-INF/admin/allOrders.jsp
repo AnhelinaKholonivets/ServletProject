@@ -16,17 +16,7 @@
 
 <div class="page-container">
 
-    <div class="d-flex align-items-center justify-content-between">
-        <div class="d-inline">
-            <h1><fmt:message key="order.all"/></h1>
-        </div>
-        <div class="d-inline ">
-            <a class="btn btn-success"
-               href="${pageContext.request.contextPath}/tariffs/addTariff" role="button">
-                <fmt:message key="tariff.add"/>
-            </a>
-        </div>
-    </div>
+    <h1><fmt:message key="order.all"/></h1>
 
     <table class="table table-striped table-hover">
         <thead>
@@ -41,8 +31,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <c:forEach var="order" items="${orders}">
+        <c:forEach var="order" items="${orders}">
+            <tr>
                 <td>1</td>
                 <td>${order.user.email}</td>
                 <td>${order.tariff.product.name}</td>
@@ -50,8 +40,9 @@
                 <td>${order.tariff.price}</td>
                 <td>UAH</td>
                 <td>${order.dateTime}</td>
-            </c:forEach>
-        </tr>
+
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 

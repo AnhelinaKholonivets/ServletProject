@@ -8,6 +8,21 @@ public class Order {
     private Tariff tariff;
     private LocalDateTime dateTime;
 
+    public Order() {};
+
+    public Order(Object o, User user, Tariff tariff, LocalDateTime now) {
+        this.user = user;
+        this.tariff = tariff;
+        this.dateTime = now;
+    }
+
+    public Order(Long id, User user, Tariff tariff, LocalDateTime dateTime) {
+        this.id = id;
+        this.user = user;
+        this.tariff = tariff;
+        this.dateTime = dateTime;
+    }
+
     public Long getId() {
         return id;
     }

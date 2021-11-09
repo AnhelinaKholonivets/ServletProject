@@ -24,7 +24,6 @@ public class TariffServiceImpl implements TariffService {
         }
     }
 
-
     @Override
     public void deleteTariff(Long id) {
         try (TariffDao dao = daoFactory.createTariffDao()) {

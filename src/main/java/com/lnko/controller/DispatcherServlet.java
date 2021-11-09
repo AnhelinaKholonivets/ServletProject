@@ -1,6 +1,7 @@
 package com.lnko.controller;
 
 import com.lnko.controller.command.*;
+import com.lnko.model.service.impl.LowBalanceException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -21,15 +22,17 @@ public class DispatcherServlet extends HttpServlet {
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
 
-        commands.put("users", new AllUsers());
-       // commands.put("addUser", new )
-        commands.put("tariffs", new AllTariffs());
-       // commands.put("addTariff", new)
-        commands.put("orders", new AllOrders());
-       // commands.put("newOrder", new )
+        commands.put("admin/users", new AllUsers());
+        commands.put("admin/addUser", new AddUser());
+        commands.put("admin/tariffs", new AllTariffs());
+        commands.put("user/tariffs", new AllTariffs());
+        commands.put("admin/addTariff", new AddTariff());
+        commands.put("admin/orders", new AllOrders());
+        commands.put("user/orders", new AllOrders());
+        commands.put("user/orders/addOrder", new AddOrder());
         commands.put("logout", new LogOut());
         commands.put("login", new Login());
-        commands.put("profile", new Profile());
+        commands.put("user/profile", new Profile());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -44,14 +47,20 @@ public class DispatcherServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String path = request.getRequestURI();
-        path = path.replaceAll(".*/app/", "");
-        Command command = commands.getOrDefault(path, (r) -> "/index.jsp");
-        String page = command.execute(request);
-        if (page.contains("redirect:")) {
-            response.sendRedirect(page.replace("redirect:/", "/"));
-        } else {
-            request.getRequestDispatcher(page).forward(request, response);
+        try {
+            String path = request.getRequestURI();
+            path = path.replaceAll(".*/app/", "");
+            Command command = commands.getOrDefault(path, (r) -> "/index.jsp");
+            String page = command.execute(request);
+            if (page.contains("redirect:")) {
+                response.sendRedirect(page.replace("redirect:/", "/"));
+            } else {
+                request.getRequestDispatcher(page).forward(request, response);
+            }
+        } catch (LowBalanceException e) {
+            response.sendRedirect("WEB-INF/user/profile.jsp?LowBalanceError");
+        } catch (RuntimeException e) {
+            response.sendRedirect("WEB-INF/error.jsp");
         }
     }
 }
