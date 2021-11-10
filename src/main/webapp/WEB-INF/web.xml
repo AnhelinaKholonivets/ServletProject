@@ -47,6 +47,12 @@
     <url-pattern>/app/*</url-pattern>
   </filter-mapping>
 
+  <listener>
+    <listener-class>
+      com.lnko.controller.listener.SessionListener
+    </listener-class>
+  </listener>
+
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
