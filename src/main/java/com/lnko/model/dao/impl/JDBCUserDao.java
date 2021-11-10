@@ -3,18 +3,21 @@ package com.lnko.model.dao.impl;
 import com.lnko.model.dao.UserDao;
 import com.lnko.model.entity.Role;
 import com.lnko.model.entity.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCUserDao implements UserDao {
+    private static final Logger log = LogManager.getLogger();
+
     private static final String SELECT_USER_BY_ID_QUERY = "select * from users where id = ?";
     private static final String SELECT_USER_BY_LOGIN_QUERY = "select * from users where email = ?";
     private static final String SELECT_ALL_QUERY = "select * from users";
     private static final String CREATE_USER_QUERY = "insert into users (first_name, last_name, email, " +
-            "password, balance, blocked, role) " +
-            "values (?, ?, ?, ?, ?, ?, ?)";
+            "password, balance, blocked, role) values (?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_USER_BALANCE_QUERY = "update users set balance = ? where id = ?";
     private static final String UPDATE_USER_STATUS_QUERY = "update users set blocked = ? where id = ?";
 
@@ -37,6 +40,7 @@ public class JDBCUserDao implements UserDao {
             ps.execute();
 
         } catch (SQLException e) {
+            log.error("Error create user", e);
             e.printStackTrace();
         }
     }
@@ -53,6 +57,7 @@ public class JDBCUserDao implements UserDao {
             }
 
         } catch (SQLException e) {
+            log.error("Cannot get user by login", e);
             e.printStackTrace();
         }
         return user;
@@ -70,6 +75,7 @@ public class JDBCUserDao implements UserDao {
             }
 
         } catch (Exception e) {
+            log.error("Cannot get user by id", e);
             e.printStackTrace();
         }
         return user;
@@ -79,7 +85,7 @@ public class JDBCUserDao implements UserDao {
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
 
-        try (Statement st = connection.createStatement();) {
+        try (Statement st = connection.createStatement()) {
             st.executeQuery(SELECT_ALL_QUERY);
             ResultSet resultSet = st.getResultSet();
 
@@ -88,6 +94,7 @@ public class JDBCUserDao implements UserDao {
             }
 
         } catch (SQLException e) {
+            log.error("Cannot get users", e);
             e.printStackTrace();
         }
         return users;
@@ -105,6 +112,7 @@ public class JDBCUserDao implements UserDao {
             ps.execute();
 
         } catch (SQLException e) {
+            log.error("Cannot update balance for user", e);
             e.printStackTrace();
         }
     }
@@ -117,6 +125,7 @@ public class JDBCUserDao implements UserDao {
             ps.execute();
 
         } catch (Exception e) {
+            log.error("Cannot update status for user", e);
             e.printStackTrace();
         }
     }

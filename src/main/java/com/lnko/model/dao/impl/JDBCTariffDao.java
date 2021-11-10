@@ -3,15 +3,20 @@ package com.lnko.model.dao.impl;
 import com.lnko.model.dao.TariffDao;
 import com.lnko.model.entity.Product;
 import com.lnko.model.entity.Tariff;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 
 public class JDBCTariffDao implements TariffDao {
+    private static final Logger log = LogManager.getLogger();
+
     private static final String SELECT_ALL_QUERY
             = "select * from tariffs join products p on p.id = tariffs.product_id";
     private static final String SELECT_ALL_BY_IDS_QUERY
@@ -30,14 +35,14 @@ public class JDBCTariffDao implements TariffDao {
 
     @Override
     public void create(Tariff tariff) {
-        try {
-            PreparedStatement ps = connection.prepareStatement(INSERT_TARIFF_QUERY);
+        try (PreparedStatement ps = connection.prepareStatement(INSERT_TARIFF_QUERY)) {
             ps.setString(1, tariff.getName());
             ps.setLong(2, tariff.getProduct().getId());
             ps.setBigDecimal(3, tariff.getPrice());
             ps.execute();
 
         } catch (SQLException e) {
+            log.error("Error create tariff", e);
             e.printStackTrace();
         }
     }
@@ -45,14 +50,15 @@ public class JDBCTariffDao implements TariffDao {
     @Override
     public Tariff findById(Long id) {
         Tariff tariff = null;
-        try {
-            PreparedStatement ps = connection.prepareStatement(SELECT_BY_ID_QUERY);
+
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
             ps.setLong(1, id);
             ResultSet resultSet = ps.executeQuery();
 
             tariff = mapResultSet(resultSet);
 
         } catch (Exception e) {
+            log.error("Cannot get tariff by id", e);
             e.printStackTrace();
         }
         return tariff;
@@ -61,8 +67,8 @@ public class JDBCTariffDao implements TariffDao {
     @Override
     public List<Tariff> findAll() {
         List<Tariff> tariffs = new ArrayList<>();
-        try {
-            PreparedStatement ps = connection.prepareStatement(SELECT_ALL_QUERY);
+
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_ALL_QUERY)) {
             ResultSet resultSet = ps.executeQuery();
 
             while (resultSet.next()) {
@@ -70,6 +76,7 @@ public class JDBCTariffDao implements TariffDao {
             }
 
         } catch (SQLException e) {
+            log.error("Cannot get tariffs", e);
             e.printStackTrace();
         }
 
@@ -80,18 +87,17 @@ public class JDBCTariffDao implements TariffDao {
     public List<Tariff> findAllByIds(List<Long> tariffsIds) {
         List<Tariff> tariffs = new ArrayList<>();
 
-        try{
-            String queryParams = tariffsIds
-                    .stream()
-                    .map(i -> "?")
-                    .collect(Collectors.joining(","));
+        String queryParams = tariffsIds
+                .stream()
+                .map(i -> "?")
+                .collect(Collectors.joining(","));
 
-            String modifiedQuery = SELECT_ALL_BY_IDS_QUERY.replace("?", queryParams);
+        String modifiedQuery = SELECT_ALL_BY_IDS_QUERY.replace("?", queryParams);
 
-            PreparedStatement ps = connection.prepareStatement(modifiedQuery);
-           for (int i = 1; i <= tariffsIds.size(); i++) {
-               ps.setLong(i, tariffsIds.get(i - 1));
-           }
+        try (PreparedStatement ps = connection.prepareStatement(modifiedQuery)) {
+            for (int i = 1; i <= tariffsIds.size(); i++) {
+                ps.setLong(i, tariffsIds.get(i - 1));
+            }
 
             ResultSet resultSet = ps.executeQuery();
 
@@ -100,6 +106,7 @@ public class JDBCTariffDao implements TariffDao {
             }
 
         } catch (SQLException e) {
+            log.error("Cannot get tariffs by ids", e);
             e.printStackTrace();
         }
 
@@ -113,13 +120,22 @@ public class JDBCTariffDao implements TariffDao {
 
     @Override
     public void delete(Long id) {
-        try {
-            PreparedStatement ps = connection.prepareStatement(DELETE_TARIFF_BY_ID_QUERY);
+        try (PreparedStatement ps = connection.prepareStatement(DELETE_TARIFF_BY_ID_QUERY)) {
             ps.setLong(1, id);
             ps.execute();
 
         } catch (Exception e) {
+            log.error("Error delete tariff", e);
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void close() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -139,14 +155,5 @@ public class JDBCTariffDao implements TariffDao {
         tariff.setPrice(resultSet.getBigDecimal("price"));
 
         return tariff;
-    }
-
-    @Override
-    public void close() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

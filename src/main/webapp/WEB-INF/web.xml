@@ -15,6 +15,20 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+  <filter>
+    <filter-name>SessionLocaleFilter</filter-name>
+    <filter-class>com.lnko.controller.filters.SessionLocaleFilter</filter-class>
+    <init-param>
+      <param-name>lang</param-name>
+      <param-value>en</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>SessionLocaleFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
   <servlet>
     <servlet-name>DispatcherServlet</servlet-name>
     <servlet-class>com.lnko.controller.DispatcherServlet</servlet-class>

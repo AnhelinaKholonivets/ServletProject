@@ -5,6 +5,8 @@ import com.lnko.model.entity.Order;
 import com.lnko.model.entity.Product;
 import com.lnko.model.entity.Tariff;
 import com.lnko.model.entity.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCOrderDao implements OrderDao {
+    private static final Logger log = LogManager.getLogger();
+
     private static final String SELECT_ALL_QUERY
             = "select orders.id, email, p.name, t.name, price, date_time from orders " +
             "join users u on orders.user_id = u.id " +
@@ -42,6 +46,7 @@ public class JDBCOrderDao implements OrderDao {
             ps.setLong(3, order.getTariff().getId());
             ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
         } catch (SQLException e) {
+            log.error("Error create order", e);
             e.printStackTrace();
         }
     }
@@ -62,6 +67,7 @@ public class JDBCOrderDao implements OrderDao {
             }
 
         } catch (SQLException e) {
+            log.error("Error create order", e);
             e.printStackTrace();
         }
         return orders;
@@ -80,6 +86,7 @@ public class JDBCOrderDao implements OrderDao {
             }
 
         } catch (SQLException e) {
+            log.error("Cannot get user by id", e);
             e.printStackTrace();
         }
         return orders;
@@ -106,7 +113,9 @@ public class JDBCOrderDao implements OrderDao {
 
             connection.commit();
             connection.setAutoCommit(true);
+
         } catch (SQLException e) {
+            log.error("Error save new orders", e);
             e.printStackTrace();
         }
 
