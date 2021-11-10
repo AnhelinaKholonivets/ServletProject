@@ -16,9 +16,9 @@
             let addToBalance = parseFloat(document.getElementById("balanceToAdd").value);
 
             $.ajax({
-                url: '/user/profile',
-                type: 'PUT',
-                data: "addToBalance=" + addToBalance,
+                url: '/app/user/profile',
+                type: 'put',
+                data: "addToBalance: " + addToBalance,
                 dataType: "json",
                 success: function (data) {
                     document.getElementById("currentBalance").innerHTML
@@ -35,7 +35,7 @@
 
 <div class="page-container">
 
-    <h4><fmt:message key="header.profile"/>: ${user.firstName} ${user.lastName}    </h4>
+    <h4><fmt:message key="header.profile"/>: ${user.firstName} ${user.lastName}</h4>
     <h4><fmt:message key="email"/>: ${user.email}</h4>    <br>
 
     <h4 style="display: inline"><fmt:message key="balance.amount"/>: </h4>

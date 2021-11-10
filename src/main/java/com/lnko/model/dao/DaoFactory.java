@@ -7,6 +7,7 @@ public abstract class DaoFactory {
     public abstract TariffDao createTariffDao();
     public abstract UserDao createUserDao();
     public abstract OrderDao createOrderDao();
+    public abstract ProductDao createProductDao();
 
     private static final class DaoFactoryHolder {
         static final DaoFactory daoFactory = new JDBCDaoFactory();

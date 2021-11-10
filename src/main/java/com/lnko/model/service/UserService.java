@@ -10,7 +10,7 @@ public interface UserService {
 
     User getUserByLogin(String login);
 
-    void refileBalance(Long id, BigDecimal addBalance);
+    void refileBalance(User user, BigDecimal addBalance);
 
     void blockUser(Long id);
 

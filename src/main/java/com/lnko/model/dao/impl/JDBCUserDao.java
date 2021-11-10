@@ -16,6 +16,7 @@ public class JDBCUserDao implements UserDao {
     private static final String CREATE_USER_QUERY = "insert into users (first_name, last_name, email, " +
             "password, balance, blocked, role) " +
             "values (?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_USER_BALANCE = "update users set balance = ? where id = ?";
 
     private final Connection connection;
 
@@ -43,9 +44,9 @@ public class JDBCUserDao implements UserDao {
     public User findByLogin(String login) {
         User user = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_LOGIN_QUERY);
-            preparedStatement.setString(1, login);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_LOGIN_QUERY);
+            ps.setString(1, login);
+            ResultSet resultSet = ps.executeQuery();
 
             while (resultSet.next()) {
                 user = mapResultSet(resultSet);
@@ -62,9 +63,9 @@ public class JDBCUserDao implements UserDao {
         User user = null;
         try {
             Connection conn = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement = conn.prepareStatement(SELECT_USER_BY_ID_QUERY);
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            PreparedStatement ps = conn.prepareStatement(SELECT_USER_BY_ID_QUERY);
+            ps.setLong(1, id);
+            ResultSet resultSet = ps.executeQuery();
 
             while (resultSet.next()) {
                 user = mapResultSet(resultSet);
@@ -97,6 +98,19 @@ public class JDBCUserDao implements UserDao {
     @Override
     public void update(User user) {
 
+    }
+
+    @Override
+    public void updateBalance(User user) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(UPDATE_USER_BALANCE);
+            ps.setBigDecimal(1, user.getBalance());
+            ps.setLong(2, user.getId());
+            ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -22,28 +22,37 @@ public class DispatcherServlet extends HttpServlet {
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
 
+        commands.put("login", new Login());
+        commands.put("logout", new LogOut());
         commands.put("admin/users", new AllUsers());
-        commands.put("admin/addUser", new AddUser());
+        commands.put("admin/users/addUser", new AddUser());
         commands.put("admin/tariffs", new AllTariffs());
-        commands.put("user/tariffs", new AllTariffs());
-        commands.put("admin/addTariff", new AddTariff());
+        commands.put("admin/tariffs/addTariff", new AddTariff());
         commands.put("admin/orders", new AllOrders());
+        commands.put("user/tariffs", new AllTariffs());
         commands.put("user/orders", new AllOrders());
         commands.put("user/orders/addOrder", new AddOrder());
-        commands.put("logout", new LogOut());
-        commands.put("login", new Login());
         commands.put("user/profile", new Profile());
     }
 
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         processRequest(request, response);
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         processRequest(request, response);
     }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

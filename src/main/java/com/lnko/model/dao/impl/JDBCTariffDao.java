@@ -107,7 +107,7 @@ public class JDBCTariffDao implements TariffDao {
     }
 
     @Override
-    public void update(Tariff entity) {
+    public void update(Tariff tariff) {
 
     }
 

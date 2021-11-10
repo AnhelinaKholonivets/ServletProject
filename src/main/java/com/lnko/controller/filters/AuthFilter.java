@@ -40,7 +40,7 @@ public class AuthFilter implements Filter {
     }
 
     private List<String> getAccessList(String role) {
-        List<String> adminAccess = Arrays.asList("/admin/tariffs", "/admin/orders", "/admin/users", "/", "/home", "admin/tariffs/addTariff");
+        List<String> adminAccess = Arrays.asList("/admin/tariffs", "/admin/orders", "/admin/users", "/", "/home", "/admin/tariffs/addTariff");
         List<String> userAccess = Arrays.asList("/user/tariffs", "/user/orders", "/user/profile", "/", "/home", "/user/orders/addOrder");
         List<String> unknownAccess = Arrays.asList("/login", "/", "/home");
 

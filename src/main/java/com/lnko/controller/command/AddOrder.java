@@ -26,7 +26,9 @@ public class AddOrder implements Command {
         }
 
         if ("POST".equalsIgnoreCase(request.getMethod())) {
-            String tariffsStr = extractBody(request).replace("[", "").replace("]", "").replaceAll("\"", "");
+            String tariffsStr = extractBody(request).replace("[", "")
+                    .replace("]", "")
+                    .replaceAll("\"", "");
 
             HttpSession session = request.getSession();
             String login = session.getAttribute("login").toString();

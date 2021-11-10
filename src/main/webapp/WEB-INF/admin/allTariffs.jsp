@@ -35,7 +35,7 @@
         </div>
         <div class="d-inline ">
             <a class="btn btn-success"
-               href="${pageContext.request.contextPath}/tariffs/addTariff" role="button">
+               href="${pageContext.request.contextPath}/admin/tariffs/addTariff" role="button">
                 <fmt:message key="tariff.add"/>
             </a>
         </div>

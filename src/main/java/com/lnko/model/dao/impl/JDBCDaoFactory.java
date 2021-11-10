@@ -1,10 +1,7 @@
 package com.lnko.model.dao.impl;
 
 import com.lnko.controller.util.ConnectionManager;
-import com.lnko.model.dao.DaoFactory;
-import com.lnko.model.dao.OrderDao;
-import com.lnko.model.dao.TariffDao;
-import com.lnko.model.dao.UserDao;
+import com.lnko.model.dao.*;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -27,6 +24,11 @@ public class JDBCDaoFactory extends DaoFactory {
     @Override
     public OrderDao createOrderDao() {
         return new JDBCOrderDao(getConnection());
+    }
+
+    @Override
+    public ProductDao createProductDao() {
+        return new JDBCProductDao(getConnection());
     }
 
     private Connection getConnection() {

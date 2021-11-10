@@ -20,7 +20,7 @@ public class TariffServiceImpl implements TariffService {
     @Override
     public void saveTariff(Tariff tariff) {
         try (TariffDao dao = daoFactory.createTariffDao()) {
-            dao.update(tariff);
+            dao.create(tariff);
         }
     }
 
