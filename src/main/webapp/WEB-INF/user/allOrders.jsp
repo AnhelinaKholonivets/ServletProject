@@ -16,7 +16,7 @@
 
 <div class="page-container">
 
-            <h1><fmt:message key="order.all"/></h1>
+    <h1><fmt:message key="order.all"/></h1>
 
 
     <table class="table table-striped table-hover">
@@ -31,15 +31,18 @@
         </tr>
         </thead>
         <tbody>
+
+        <c:set var="count" value="0" scope="page"/>
         <c:forEach var="order" items="${orders}">
-        <tr>
-                <td>1</td>
+            <tr>
+                <c:set var="count" value="${count + 1}" scope="page"/>
+                <td><c:out value="${count}"/></td>
                 <td>${order.tariff.product.name}</td>
                 <td>${order.tariff.name}</td>
                 <td>${order.tariff.price}</td>
                 <td>UAH</td>
                 <td>${order.dateTime}</td>
-        </tr>
+            </tr>
         </c:forEach>
         </tbody>
     </table>

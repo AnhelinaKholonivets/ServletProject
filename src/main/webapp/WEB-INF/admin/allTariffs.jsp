@@ -14,10 +14,8 @@
     <script>
         function deleteRequest(id) {
             $.ajax({
-                url: '/app/admin/tariffs',
-                type: 'post',
-                data: "tariffId: " + id,
-                dataType: "json",
+                url: '/app/admin/tariffs?id=' + id,
+                type: 'delete',
                 success: function (data) {
                     console.log(data);
                     document.location.reload();
@@ -56,9 +54,12 @@
         </tr>
         </thead>
         <tbody>
+
+        <c:set var="count" value="0" scope="page"/>
         <c:forEach var="tariff" items="${tariffs}">
             <tr>
-                <td>1</td>
+                <c:set var="count" value="${count + 1}" scope="page"/>
+                <td><c:out value = "${count}"/></td>
                 <td>${tariff.product.name}</td>
                 <td>${tariff.name}</td>
                 <td>${tariff.price}</td>

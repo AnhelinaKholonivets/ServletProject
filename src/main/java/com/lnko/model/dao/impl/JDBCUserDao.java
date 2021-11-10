@@ -1,6 +1,5 @@
 package com.lnko.model.dao.impl;
 
-import com.lnko.controller.util.ConnectionManager;
 import com.lnko.model.dao.UserDao;
 import com.lnko.model.entity.Role;
 import com.lnko.model.entity.User;
@@ -16,7 +15,8 @@ public class JDBCUserDao implements UserDao {
     private static final String CREATE_USER_QUERY = "insert into users (first_name, last_name, email, " +
             "password, balance, blocked, role) " +
             "values (?, ?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_USER_BALANCE = "update users set balance = ? where id = ?";
+    private static final String UPDATE_USER_BALANCE_QUERY = "update users set balance = ? where id = ?";
+    private static final String UPDATE_USER_STATUS_QUERY = "update users set blocked = ? where id = ?";
 
     private final Connection connection;
 
@@ -26,8 +26,7 @@ public class JDBCUserDao implements UserDao {
 
     @Override
     public void create(User user) {
-        try {
-            PreparedStatement ps = connection.prepareStatement(CREATE_USER_QUERY);
+        try (PreparedStatement ps = connection.prepareStatement(CREATE_USER_QUERY)) {
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
             ps.setString(3, user.getEmail());
@@ -45,8 +44,7 @@ public class JDBCUserDao implements UserDao {
     @Override
     public User findByLogin(String login) {
         User user = null;
-        try {
-            PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_LOGIN_QUERY);
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_LOGIN_QUERY)) {
             ps.setString(1, login);
             ResultSet resultSet = ps.executeQuery();
 
@@ -63,9 +61,7 @@ public class JDBCUserDao implements UserDao {
     @Override
     public User findById(Long id) {
         User user = null;
-        try {
-            Connection conn = ConnectionManager.getConnection();
-            PreparedStatement ps = conn.prepareStatement(SELECT_USER_BY_ID_QUERY);
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_ID_QUERY)) {
             ps.setLong(1, id);
             ResultSet resultSet = ps.executeQuery();
 
@@ -82,8 +78,8 @@ public class JDBCUserDao implements UserDao {
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
-        try {
-            Statement st = connection.createStatement();
+
+        try (Statement st = connection.createStatement();) {
             st.executeQuery(SELECT_ALL_QUERY);
             ResultSet resultSet = st.getResultSet();
 
@@ -99,18 +95,28 @@ public class JDBCUserDao implements UserDao {
 
     @Override
     public void update(User user) {
-
     }
 
     @Override
     public void updateBalance(User user) {
-        try {
-            PreparedStatement ps = connection.prepareStatement(UPDATE_USER_BALANCE);
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE_USER_BALANCE_QUERY)) {
             ps.setBigDecimal(1, user.getBalance());
             ps.setLong(2, user.getId());
             ps.execute();
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateStatus(User user) {
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE_USER_STATUS_QUERY)) {
+            ps.setBoolean(1, user.getBlocked());
+            ps.setLong(2, user.getId());
+            ps.execute();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

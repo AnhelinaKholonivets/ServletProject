@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         try (UserDao dao = daoFactory.createUserDao()) {
             User user = dao.findById(id);
             user.setBlocked(!user.getBlocked());
-            dao.update(user);
+            dao.updateStatus(user);
         }
     }
 

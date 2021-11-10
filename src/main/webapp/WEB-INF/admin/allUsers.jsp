@@ -14,7 +14,7 @@
     <script>
         function blockRequest(id) {
             $.ajax({
-                url: '/app/admin/users/' + id,
+                url: '/app/admin/users?id=' + id,
                 type: 'PUT',
                 success: function (data) {
                     console.log(data);
@@ -51,19 +51,39 @@
             <th scope="col"><a><fmt:message key="email"/></a></th>
             <th scope="col"><a><fmt:message key="user.balance"/></a></th>
             <th scope="col"><fmt:message key="currency"/></th>
-            <th scope="col"><fmt:message key="user.block"/></th>
+            <th scope="col"><fmt:message key    ="user.block"/></th>
         </tr>
         </thead>
         <tbody>
+
+        <c:set var="count" value="0" scope="page" />
         <c:forEach var="user" items="${users}">
-            <tr>
-                <td>1</td>
-                <td>${user.firstName}</td>
-                <td>${user.lastName}</td>
-                <td>${user.email}</td>
-                <td>${user.balance}</td>
-                <td>UAH</td>
-                <td>${user.blocked}</td>
+            <c:if test="${not user.blocked}"><tr class="table-striped"> </c:if>
+            <c:if test="${user.blocked}"><tr class="table-danger"> </c:if>
+
+            <c:set var="count" value="${count + 1}" scope="page"/>
+            <td><c:out value = "${count}"/></td>
+            <td>${user.firstName}</td>
+            <td>${user.lastName}</td>
+            <td>${user.email}</td>
+            <td>${user.balance}</td>
+            <td>UAH</td>
+            <c:if test="${not user.blocked and user.role!='ADMIN'}">
+                <td><a class="btn-outline-danger text-decoration-none" id="${user.id}"
+                       onclick="blockRequest(this.id)" href="#">
+                    <fmt:message key="user.block"/>
+                </a></td>
+            </c:if>
+            <c:if test="${user.role=='ADMIN'}">
+                <td><a class="btn-outline-danger text-decoration-none" href="#"></a></td>
+            </c:if>
+
+            <c:if test="${user.blocked == true}">
+                <td><a class="btn-outline-success text-decoration-none" id="${user.id}"
+                       onclick="blockRequest(this.id)" href="#">
+                    <fmt:message key="user.unblock"/>
+                </a></td>
+            </c:if>
             </tr>
         </c:forEach>
         </tbody>

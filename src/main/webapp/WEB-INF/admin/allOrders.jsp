@@ -31,9 +31,12 @@
         </tr>
         </thead>
         <tbody>
+
+        <c:set var="count" value="0" scope="page"/>
         <c:forEach var="order" items="${orders}">
             <tr>
-                <td>1</td>
+                <c:set var="count" value="${count + 1}" scope="page"/>
+                <td><c:out value = "${count}"/></td>
                 <td>${order.user.email}</td>
                 <td>${order.tariff.product.name}</td>
                 <td>${order.tariff.name}</td>

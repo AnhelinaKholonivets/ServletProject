@@ -1,6 +1,5 @@
 package com.lnko.controller.command;
 
-import com.lnko.controller.util.ExtractBody;
 import com.lnko.model.entity.Role;
 import com.lnko.model.entity.Tariff;
 import com.lnko.model.service.TariffService;
@@ -31,8 +30,8 @@ public class AllTariffs implements Command {
             }
         }
 
-        if ("POST".equalsIgnoreCase(request.getMethod())) {
-            String tariff = ExtractBody.extractBody(request).replace("tariffId: ","");
+        if ("DELETE".equalsIgnoreCase(request.getMethod())) {
+            String tariff = request.getParameter("id");
             Long tariffId = Long.valueOf(tariff);
 
             TariffService tariffService = new TariffServiceImpl();
