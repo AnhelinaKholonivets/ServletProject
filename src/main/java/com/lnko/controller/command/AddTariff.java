@@ -32,7 +32,7 @@ public class AddTariff implements Command {
 
             TariffService tariffService = new TariffServiceImpl();
             tariffService.saveTariff(tariff);
-            return "redirect:/admin/tariffs";
+            return "redirect:/app/admin/tariffs";
         }
         return "";
     }

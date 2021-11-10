@@ -1,6 +1,11 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 
+  <resource-bundle>
+    <base-name>messages</base-name>
+    <var>bundle</var>
+  </resource-bundle>
+
   <filter>
     <filter-name>EncodingFilter</filter-name>
     <filter-class>com.lnko.controller.filters.EncodingFilter</filter-class>

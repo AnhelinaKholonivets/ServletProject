@@ -14,8 +14,10 @@
     <script>
         function deleteRequest(id) {
             $.ajax({
-                url: '/tariffs/delete/' + id,
-                type: 'DELETE',
+                url: '/app/admin/tariffs',
+                type: 'post',
+                data: "tariffId: " + id,
+                dataType: "json",
                 success: function (data) {
                     console.log(data);
                     document.location.reload();
@@ -35,7 +37,7 @@
         </div>
         <div class="d-inline ">
             <a class="btn btn-success"
-               href="${pageContext.request.contextPath}/admin/tariffs/addTariff" role="button">
+               href="${pageContext.request.contextPath}/app/admin/tariffs/addTariff" role="button">
                 <fmt:message key="tariff.add"/>
             </a>
         </div>
@@ -61,11 +63,10 @@
                 <td>${tariff.name}</td>
                 <td>${tariff.price}</td>
                 <td>UAH</td>
-                <td><a class="btn-outline-danger text-decoration-none"
-                       onclick="deleteRequest(this.id)">
+                <td><a class="btn-outline-danger text-decoration-none" id="${tariff.id}"
+                       onclick="deleteRequest(id)">
                     <fmt:message key="delete"/>
                 </a></td>
-
             </tr>
         </c:forEach>
         </tbody>

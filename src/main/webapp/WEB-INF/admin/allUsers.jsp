@@ -11,6 +11,18 @@
     <title>
         <fmt:message key="tariff.all"/>
     </title>
+    <script>
+        function blockRequest(id) {
+            $.ajax({
+                url: '/app/admin/users/' + id,
+                type: 'PUT',
+                success: function (data) {
+                    console.log(data);
+                    document.location.reload();
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 
@@ -18,7 +30,17 @@
 
 <div class="page-container">
 
-    <h1><fmt:message key="tariff.all"/></h1>
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="d-inline">
+            <h1><fmt:message key="user.all"/></h1>
+        </div>
+        <div class="d-inline ">
+            <a class="btn btn-success"
+               href="${pageContext.request.contextPath}/app/admin/users/addUser" role="button">
+                <fmt:message key="user.add"/>
+            </a>
+        </div>
+    </div>
 
     <table class="table table-striped table-hover">
         <thead>

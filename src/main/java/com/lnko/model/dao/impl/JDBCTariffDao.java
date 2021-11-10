@@ -19,8 +19,8 @@ public class JDBCTariffDao implements TariffDao {
     private static final String SELECT_BY_ID_QUERY
             = "select * from tariffs join products p on p.id = tariffs.product_id where tariffs.id = ?";
     private static final String DELETE_TARIFF_BY_ID_QUERY = "delete from tariffs where id = ?";
-    private static final String INSERT_TARIFF_QUERY = "insert into tariffs (id, name, product_id, price) " +
-            "values (?, ?, ?, ?)";
+    private static final String INSERT_TARIFF_QUERY = "insert into tariffs ( name, product_id, price) " +
+            "values (?, ?, ?)";
 
     private final Connection connection;
 
@@ -32,10 +32,10 @@ public class JDBCTariffDao implements TariffDao {
     public void create(Tariff tariff) {
         try {
             PreparedStatement ps = connection.prepareStatement(INSERT_TARIFF_QUERY);
-            ps.setLong(1, tariff.getId());
-            ps.setString(2, tariff.getName());
-            ps.setLong(3, tariff.getProduct().getId());
-            ps.setBigDecimal(4, tariff.getPrice());
+            ps.setString(1, tariff.getName());
+            ps.setLong(2, tariff.getProduct().getId());
+            ps.setBigDecimal(3, tariff.getPrice());
+            ps.execute();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,7 +116,7 @@ public class JDBCTariffDao implements TariffDao {
         try {
             PreparedStatement ps = connection.prepareStatement(DELETE_TARIFF_BY_ID_QUERY);
             ps.setLong(1, id);
-            ResultSet resultSet = ps.executeQuery();
+            ps.execute();
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -18,7 +18,7 @@
         <fmt:message key="user.add"/>
     </h1>
 
-    <form method="post" action="${pageContext.request.contextPath}/admin/users/addUser">
+    <form method="post" action="${pageContext.request.contextPath}/app/admin/users/addUser">
         <div class="mb-3">
             <label for="firstName" class="form-label"><fmt:message key="user.firstName"/></label>
             <input type="text" class="form-control" id="firstName" name="firstName"/>

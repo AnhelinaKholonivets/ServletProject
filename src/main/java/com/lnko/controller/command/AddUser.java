@@ -11,25 +11,32 @@ import java.math.BigDecimal;
 public class AddUser implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-        String email = request.getParameter("email");
-        String pass = request.getParameter("password");
 
-        if (email == null || email.equals("") || pass == null || pass.equals("")) {
-            return "/admin/addUser.jsp";
+        if ("GET".equalsIgnoreCase(request.getMethod())) {
+            return "/WEB-INF/admin/addUser.jsp";
         }
 
-        User user = new User();
-        user.setFirstName(request.getParameter("firstName"));
-        user.setLastName(request.getParameter("lastName"));
-        user.setEmail(request.getParameter("email"));
-        user.setPassword(request.getParameter("password"));
-        user.setBalance(new BigDecimal(request.getParameter("balance")));
-        user.setBlocked(false);
-        user.setRole(Role.USER.toString());
+        if ("POST".equalsIgnoreCase(request.getMethod())) {
 
-        UserService userService = new UserServiceImpl();
-        userService.saveUser(user);
+            String email = request.getParameter("email");
+            String pass = request.getParameter("password");
+            if (email == null || email.equals("") || pass == null || pass.equals("")) {
+                return "/WEB-INF/admin/addUser.jsp";
+            }
 
-        return "/admin/allUsers.jsp";
+            User user = new User();
+            user.setFirstName(request.getParameter("firstName"));
+            user.setLastName(request.getParameter("lastName"));
+            user.setEmail(request.getParameter("email"));
+            user.setPassword(request.getParameter("password"));
+            user.setBalance(new BigDecimal(request.getParameter("balance")));
+            user.setBlocked(false);
+            user.setRole(Role.USER.toString());
+
+            UserService userService = new UserServiceImpl();
+            userService.saveNewUser(user);
+        }
+
+        return "redirect:/app/admin/users";
     }
 }

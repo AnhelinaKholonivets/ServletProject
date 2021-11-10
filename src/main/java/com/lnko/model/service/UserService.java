@@ -14,5 +14,5 @@ public interface UserService {
 
     void blockUser(Long id);
 
-    void saveUser(User user);
+    void saveNewUser(User user);
 }

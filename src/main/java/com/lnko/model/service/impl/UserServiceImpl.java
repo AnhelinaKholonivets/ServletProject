@@ -43,9 +43,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user){
+    public void saveNewUser(User user){
         try (UserDao dao = daoFactory.createUserDao()) {
-            dao.update(user);
+            dao.create(user);
         }
     }
 

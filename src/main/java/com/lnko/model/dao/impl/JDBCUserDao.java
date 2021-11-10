@@ -35,6 +35,8 @@ public class JDBCUserDao implements UserDao {
             ps.setBigDecimal(5, user.getBalance());
             ps.setBoolean(6, false);
             ps.setString(7, Role.USER.toString());
+            ps.execute();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

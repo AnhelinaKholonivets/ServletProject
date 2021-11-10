@@ -48,7 +48,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white"
                        href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">
-                        <c:out value="${pageContext.request.locale.language}"/>
+                       <fmt:message key="choose"/>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown01">
                         <li><a class="dropdown-item" <fmt:setLocale value="en_EN" scope="session"/> href="${pageContext.request.contextPath}?lang=en_EN">EN</a></li>

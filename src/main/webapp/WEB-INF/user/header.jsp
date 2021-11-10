@@ -39,9 +39,9 @@
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <ul
                     class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="${pageContext.request.contextPath}/app/home" class="nav-link px-2 text-white">
-                    <fmt:message key="header.home"/>
-                </a></li>
+<%--                <li><a href="${pageContext.request.contextPath}/app/home" class="nav-link px-2 text-white">--%>
+<%--                    <fmt:message key="header.home"/>--%>
+<%--                </a></li>--%>
                 <li><a href="${pageContext.request.contextPath}/app/user/tariffs" class="nav-link px-2 text-white">
                     <fmt:message key="header.tariffs"/>
                 </a></li>
@@ -54,20 +54,19 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white"
                        href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">
-                        <fmt:message key="${pageContext.request.locale.language}"/>
+                        <fmt:message key="choose"/>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown01">
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}?lang=en_EN">EN</a></li>
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}?lang=ua_UA">UA</a></li>
+                        <li><a class="dropdown-item" <fmt:setLocale value="en_EN" scope="session"/> href="${pageContext.request.contextPath}?lang=en_EN">EN</a></li>
+                        <li><a class="dropdown-item" <fmt:setLocale value="ua_UA" scope="session"/> href="${pageContext.request.contextPath}?lang=ua_UA">UA</a></li>
                     </ul>
                 </li>
             </ul>
 
                         <div class="text-end">
                             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                                <li><a href="/app/user/profile">
-                                      Profile
-<%--                                    class="nav-link px-2 text-white">[[${#httpServletRequest.remoteUser}]]--%>
+                                <li><a class="nav-link px-2"  href="/app/user/profile">
+                                    <fmt:message key="user"/>
                                 </a>
                                 <li>
                                     <a class="btn btn-outline-light" href="/app/logout" role="button">

@@ -34,8 +34,8 @@ create table users
 create table orders
 (
     id        bigint auto_increment primary key,
-    user_id   bigint   not null,
-    tariff_id bigint   not null,
+    user_id   bigint,
+    tariff_id bigint,
     date_time datetime null,
     constraint orders_ibfk_1
         foreign key (user_id) references users (id),
@@ -53,12 +53,12 @@ create index user_id
     on orders (user_id);
 
 INSERT INTO servlet_test_db.users (first_name, last_name, email, password, balance, blocked, role)
-VALUES ('admin', 'admin', 'admin@mail.com', '$2a$12$NXMOVsS3DoxdLfu7uKX.NeGFdYSPJfnwGQ2F5A17kBwH1Ff8izGoC', 0, 0,
-        'ROLE_ADMIN');
+VALUES ('admin', 'admin', 'admin@mail.com', '1', 0, 0,
+        'ADMIN');
 
 INSERT INTO servlet_test_db.users (first_name, last_name, email, password, balance, blocked, role)
-VALUES ('user', 'user', 'user@mail.com', '$2a$12$M7TfQ/SYZ9m8R8GrM58qDe92jXB2GN/SBumcjc92OndLu1ret/sMq', 0, 0,
-        'ROLE_USER');
+VALUES ('user', 'user', 'user@mail.com', '1', 0, 0,
+        'USER');
 
 INSERT INTO servlet_test_db.products (name)
 VALUES ('PHONE');
