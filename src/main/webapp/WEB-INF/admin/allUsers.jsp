@@ -90,11 +90,11 @@
         </tbody>
     </table>
 
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
-            <li><a href="${pageContext.request.contextPath}?page=1">1</a></li>
-            <li><a href="${pageContext.request.contextPath}?page=2">2</a></li>
-            <li><a href="${pageContext.request.contextPath}?page=3">3</a></li>
+            <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}?page=1">1</a></li>
+            <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}?page=2">2</a></li>
+            <li class="page-item"><a class="page-link"<a href="${pageContext.request.contextPath}?page=3">3</a></li>
         </ul>
     </nav>
 
