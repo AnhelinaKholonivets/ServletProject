@@ -1,9 +1,10 @@
 package com.lnko.controller.command;
 
+import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.entity.Role;
 import com.lnko.model.entity.User;
-import com.lnko.model.service.UserService;
-import com.lnko.model.service.impl.UserServiceImpl;
+import com.lnko.service.UserService;
+import com.lnko.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -33,7 +34,7 @@ public class AddUser implements Command {
             user.setBlocked(false);
             user.setRole(Role.USER.toString());
 
-            UserService userService = new UserServiceImpl();
+            UserService userService = new UserServiceImpl(DaoFactory.getInstance());
             userService.saveNewUser(user);
         }
 

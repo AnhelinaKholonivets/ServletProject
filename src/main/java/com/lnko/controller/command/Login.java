@@ -1,9 +1,10 @@
 package com.lnko.controller.command;
 
+import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.entity.Role;
 import com.lnko.model.entity.User;
-import com.lnko.model.service.UserService;
-import com.lnko.model.service.impl.UserServiceImpl;
+import com.lnko.service.UserService;
+import com.lnko.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,7 +30,7 @@ public class Login implements Command {
                 return "/";
             }
 
-            UserService userService = new UserServiceImpl();
+            UserService userService = new UserServiceImpl(DaoFactory.getInstance());
             User user = userService.getUserByLogin(login);
             String userPass = user.getPassword();
 

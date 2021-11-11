@@ -14,11 +14,10 @@
     </title>
 </head>
 <body>
-<jsp:include page="WEB-INF/header.jsp"/>
+<jsp:include page="header.jsp"/>
 
 <div class="page-container">
     <div class="text-center">
-        <h1>Opps</h1>
         <img src="/images/cat.gif" class="rounded" alt="cat" width="500">
     </div>
 

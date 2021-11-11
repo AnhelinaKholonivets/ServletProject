@@ -1,4 +1,4 @@
-package com.lnko.controller.util;
+package com.lnko.util;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;

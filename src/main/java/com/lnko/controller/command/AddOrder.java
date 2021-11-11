@@ -1,13 +1,14 @@
 package com.lnko.controller.command;
 
-import com.lnko.controller.util.ExtractBody;
+import com.lnko.model.dao.DaoFactory;
+import com.lnko.util.ExtractBody;
 import com.lnko.model.entity.Tariff;
-import com.lnko.model.service.OrderService;
-import com.lnko.model.service.TariffService;
-import com.lnko.model.service.UserService;
-import com.lnko.model.service.impl.OrderServiceImpl;
-import com.lnko.model.service.impl.TariffServiceImpl;
-import com.lnko.model.service.impl.UserServiceImpl;
+import com.lnko.service.OrderService;
+import com.lnko.service.TariffService;
+import com.lnko.service.UserService;
+import com.lnko.service.impl.OrderServiceImpl;
+import com.lnko.service.impl.TariffServiceImpl;
+import com.lnko.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,7 +35,7 @@ public class AddOrder implements Command {
             HttpSession session = request.getSession();
             String login = session.getAttribute("login").toString();
 
-            UserService userService = new UserServiceImpl();
+            UserService userService = new UserServiceImpl(DaoFactory.getInstance());
             Long userId = userService.getUserByLogin(login).getId();
 
             List<Long> tariffsIds = Stream.of(tariffsStr.split(","))
@@ -42,7 +43,7 @@ public class AddOrder implements Command {
                     .map(Long::parseLong)
                     .collect(Collectors.toList());
 
-            OrderService orderService = new OrderServiceImpl();
+            OrderService orderService = new OrderServiceImpl(DaoFactory.getInstance());
             orderService.saveNewOrders(tariffsIds, userId);
         }
         return "/WEB-INF/user/addOrder.jsp";

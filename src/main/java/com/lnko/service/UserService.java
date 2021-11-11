@@ -1,4 +1,4 @@
-package com.lnko.model.service;
+package com.lnko.service;
 
 import com.lnko.model.entity.User;
 
@@ -15,4 +15,6 @@ public interface UserService {
     void blockUser(Long id);
 
     void saveNewUser(User user);
+
+    List<User> getAllUsersPage(int page, int size);
 }

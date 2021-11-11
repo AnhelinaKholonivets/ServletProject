@@ -1,8 +1,9 @@
 package com.lnko.controller.command;
 
+import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.entity.User;
-import com.lnko.model.service.UserService;
-import com.lnko.model.service.impl.UserServiceImpl;
+import com.lnko.service.UserService;
+import com.lnko.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,7 +16,7 @@ public class Profile implements Command {
     public String execute(HttpServletRequest request) {
 
         if ("GET".equalsIgnoreCase(request.getMethod())) {
-            UserService userService = new UserServiceImpl();
+            UserService userService = new UserServiceImpl(DaoFactory.getInstance());
             HttpSession session = request.getSession();
             String login = session.getAttribute("login").toString();
             User user = userService.getUserByLogin(login);
@@ -30,7 +31,7 @@ public class Profile implements Command {
             HttpSession session = request.getSession();
             String login = session.getAttribute("login").toString();
 
-            UserService userService = new UserServiceImpl();
+            UserService userService = new UserServiceImpl(DaoFactory.getInstance());
             User user = userService.getUserByLogin(login);
 
             userService.refileBalance(user, addBalance);

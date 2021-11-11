@@ -1,4 +1,4 @@
-package com.lnko.model.service.impl;
+package com.lnko.exception;
 
 public class LowBalanceException extends RuntimeException {
 }

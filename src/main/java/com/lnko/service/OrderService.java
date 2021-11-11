@@ -1,4 +1,4 @@
-package com.lnko.model.service;
+package com.lnko.service;
 
 import com.lnko.model.entity.Order;
 import com.lnko.model.entity.User;

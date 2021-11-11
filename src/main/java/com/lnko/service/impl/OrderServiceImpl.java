@@ -1,5 +1,6 @@
-package com.lnko.model.service.impl;
+package com.lnko.service.impl;
 
+import com.lnko.exception.LowBalanceException;
 import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.dao.OrderDao;
 import com.lnko.model.dao.TariffDao;
@@ -7,7 +8,7 @@ import com.lnko.model.dao.UserDao;
 import com.lnko.model.entity.Order;
 import com.lnko.model.entity.Tariff;
 import com.lnko.model.entity.User;
-import com.lnko.model.service.OrderService;
+import com.lnko.service.OrderService;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,7 +16,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class OrderServiceImpl implements OrderService {
-    DaoFactory daoFactory = DaoFactory.getInstance();
+    private final DaoFactory daoFactory;
+
+    public OrderServiceImpl(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 
     @Override
     public List<Order> getAllOrders() {

@@ -1,9 +1,9 @@
-package com.lnko.model.service.impl;
+package com.lnko.service.impl;
 
 import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.dao.TariffDao;
 import com.lnko.model.entity.Tariff;
-import com.lnko.model.service.TariffService;
+import com.lnko.service.TariffService;
 
 import java.util.List;
 

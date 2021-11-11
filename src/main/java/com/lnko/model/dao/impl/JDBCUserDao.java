@@ -16,6 +16,7 @@ public class JDBCUserDao implements UserDao {
     private static final String SELECT_USER_BY_ID_QUERY = "select * from users where id = ?";
     private static final String SELECT_USER_BY_LOGIN_QUERY = "select * from users where email = ?";
     private static final String SELECT_ALL_QUERY = "select * from users";
+    private static final String SELECT_ALL_LIMIT_QUERY = "select * from users limit ?, ?";
     private static final String CREATE_USER_QUERY = "insert into users (first_name, last_name, email, " +
             "password, balance, blocked, role) values (?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_USER_BALANCE_QUERY = "update users set balance = ? where id = ?";
@@ -88,6 +89,31 @@ public class JDBCUserDao implements UserDao {
         try (Statement st = connection.createStatement()) {
             st.executeQuery(SELECT_ALL_QUERY);
             ResultSet resultSet = st.getResultSet();
+
+            while (resultSet.next()) {
+                users.add(mapResultSet(resultSet));
+            }
+
+        } catch (SQLException e) {
+            log.error("Cannot get users", e);
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public List<User> findAllPage(int page, int size) {
+        List<User> users = new ArrayList<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_ALL_LIMIT_QUERY)) {
+            if (page == 1) {
+                page = 0;
+            }
+            if (page > 1) {
+                page = (page - 1) * 5;
+            }
+            ps.setInt(1, page);
+            ps.setInt(2, size);
+            ResultSet resultSet = ps.executeQuery();
 
             while (resultSet.next()) {
                 users.add(mapResultSet(resultSet));

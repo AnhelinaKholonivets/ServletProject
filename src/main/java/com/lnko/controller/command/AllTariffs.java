@@ -2,8 +2,8 @@ package com.lnko.controller.command;
 
 import com.lnko.model.entity.Role;
 import com.lnko.model.entity.Tariff;
-import com.lnko.model.service.TariffService;
-import com.lnko.model.service.impl.TariffServiceImpl;
+import com.lnko.service.TariffService;
+import com.lnko.service.impl.TariffServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

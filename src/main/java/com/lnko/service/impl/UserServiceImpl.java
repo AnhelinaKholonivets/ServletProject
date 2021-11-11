@@ -1,20 +1,31 @@
-package com.lnko.model.service.impl;
+package com.lnko.service.impl;
 
 import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.dao.UserDao;
 import com.lnko.model.entity.User;
-import com.lnko.model.service.UserService;
+import com.lnko.service.UserService;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    DaoFactory daoFactory = DaoFactory.getInstance();
+    private final DaoFactory daoFactory;
+
+    public UserServiceImpl(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 
     @Override
     public List<User> getAllUsers(){
         try (UserDao dao = daoFactory.createUserDao()) {
             return dao.findAll();
+        }
+    }
+
+    @Override
+    public List<User> getAllUsersPage(int page, int size){
+        try (UserDao dao = daoFactory.createUserDao()) {
+            return dao.findAllPage(page, size);
         }
     }
 

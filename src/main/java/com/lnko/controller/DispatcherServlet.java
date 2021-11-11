@@ -1,7 +1,7 @@
 package com.lnko.controller;
 
 import com.lnko.controller.command.*;
-import com.lnko.model.service.impl.LowBalanceException;
+import com.lnko.exception.LowBalanceException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -74,6 +74,7 @@ public class DispatcherServlet extends HttpServlet {
         } catch (LowBalanceException e) {
             response.sendRedirect("WEB-INF/user/profile.jsp?LowBalanceError");
         } catch (RuntimeException e) {
+            e.printStackTrace();
             response.sendRedirect("WEB-INF/error.jsp");
         }
     }

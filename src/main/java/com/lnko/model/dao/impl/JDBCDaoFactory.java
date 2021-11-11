@@ -1,6 +1,6 @@
 package com.lnko.model.dao.impl;
 
-import com.lnko.controller.util.ConnectionManager;
+import com.lnko.util.ConnectionManager;
 import com.lnko.model.dao.*;
 
 import javax.sql.DataSource;

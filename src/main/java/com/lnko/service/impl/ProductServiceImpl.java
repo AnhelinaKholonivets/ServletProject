@@ -1,4 +1,4 @@
-package com.lnko.model.service.impl;
+package com.lnko.service.impl;
 
 import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.dao.ProductDao;
@@ -6,7 +6,7 @@ import com.lnko.model.entity.Product;
 
 import java.util.List;
 
-public class ProductServiceImpl implements com.lnko.model.service.ProductService {
+public class ProductServiceImpl implements com.lnko.service.ProductService {
     DaoFactory daoFactory = DaoFactory.getInstance();
 
     @Override

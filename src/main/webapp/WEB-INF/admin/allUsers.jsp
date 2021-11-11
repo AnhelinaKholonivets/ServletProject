@@ -52,18 +52,18 @@
             <th scope="col"><a><fmt:message key="email"/></a></th>
             <th scope="col"><a><fmt:message key="user.balance"/></a></th>
             <th scope="col"><fmt:message key="currency"/></th>
-            <th scope="col"><fmt:message key    ="user.block"/></th>
+            <th scope="col"><fmt:message key="user.block"/></th>
         </tr>
         </thead>
         <tbody>
 
-        <c:set var="count" value="0" scope="page" />
+        <c:set var="count" value="0" scope="page"/>
         <c:forEach var="user" items="${users}">
             <c:if test="${not user.blocked}"><tr class="table-striped"> </c:if>
             <c:if test="${user.blocked}"><tr class="table-danger"> </c:if>
 
             <c:set var="count" value="${count + 1}" scope="page"/>
-            <td><c:out value = "${count}"/></td>
+            <td><c:out value="${count}"/></td>
             <td>${user.firstName}</td>
             <td>${user.lastName}</td>
             <td>${user.email}</td>
@@ -90,17 +90,14 @@
         </tbody>
     </table>
 
-    <%--    <nav aria-label="Page navigation">--%>
-    <%--        <ul class="pagination justify-content-center">--%>
-    <%--            <li th:if="${tariffs.totalPages > 0}"--%>
-    <%--                th:each="pageNumber : ${pageNumbers}"--%>
-    <%--                th:class="${pageNumber==tariffs.number + 1} ? 'page-item active' : 'page-item'">--%>
-    <%--                <a class="page-link" th:href="@{/tariffs(size=${tariffs.size}, page=${pageNumber},--%>
-    <%--                    sortField=${#request.getParameter('sortField')},--%>
-    <%--                    sortDir=${#request.getParameter('sortDir')})}"--%>
-    <%--                   th:text="${pageNumber}"></a></li>--%>
-    <%--        </ul>--%>
-    <%--    </nav>--%>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li><a href="${pageContext.request.contextPath}?page=1">1</a></li>
+            <li><a href="${pageContext.request.contextPath}?page=2">2</a></li>
+            <li><a href="${pageContext.request.contextPath}?page=3">3</a></li>
+        </ul>
+    </nav>
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

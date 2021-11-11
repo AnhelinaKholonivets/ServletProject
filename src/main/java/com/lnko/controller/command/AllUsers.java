@@ -1,8 +1,9 @@
 package com.lnko.controller.command;
 
+import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.entity.User;
-import com.lnko.model.service.UserService;
-import com.lnko.model.service.impl.UserServiceImpl;
+import com.lnko.service.UserService;
+import com.lnko.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -11,9 +12,28 @@ public class AllUsers implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+//        if ("GET".equalsIgnoreCase(request.getMethod())) {
+//            UserService userService = new UserServiceImpl();
+//            List<User> users = userService.getAllUsers();
+//            request.setAttribute("users", users);
+//            return "/WEB-INF/admin/allUsers.jsp";
+//        }
+
         if ("GET".equalsIgnoreCase(request.getMethod())) {
-            UserService userService = new UserServiceImpl();
-            List<User> users = userService.getAllUsers();
+            UserService userService = new UserServiceImpl(DaoFactory.getInstance());
+
+            String strPage = request.getParameter("page");
+            int page;
+
+            if (strPage == null) {
+                page = 1;
+            } else {
+                page = Integer.parseInt(strPage);
+            }
+
+            int size = 5;
+
+            List<User> users = userService.getAllUsersPage(page, size);
             request.setAttribute("users", users);
             return "/WEB-INF/admin/allUsers.jsp";
         }
@@ -22,7 +42,7 @@ public class AllUsers implements Command {
             String user = request.getParameter("id");
             Long userId = Long.valueOf(user);
 
-            UserService userService = new UserServiceImpl();
+            UserService userService = new UserServiceImpl(DaoFactory.getInstance());
             userService.blockUser(userId);
         }
 

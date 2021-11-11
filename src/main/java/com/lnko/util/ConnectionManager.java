@@ -1,4 +1,4 @@
-package com.lnko.controller.util;
+package com.lnko.util;
 
 import org.apache.commons.dbcp.BasicDataSource;
 

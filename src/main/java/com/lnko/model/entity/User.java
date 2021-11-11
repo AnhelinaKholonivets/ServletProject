@@ -1,6 +1,7 @@
 package com.lnko.model.entity;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class User {
     private Long id;
@@ -76,6 +77,18 @@ public class User {
         this.blocked = blocked;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId())
+                && Objects.equals(getFirstName(), user.getFirstName())
+                && Objects.equals(getLastName(), user.getLastName())
+                && Objects.equals(getEmail(), user.getEmail())
+                && Objects.equals(getPassword(), user.getPassword())
+                && Objects.equals(getBlocked(), user.getBlocked());
+    }
 
 }
 

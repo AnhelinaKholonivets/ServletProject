@@ -2,10 +2,10 @@ package com.lnko.controller.command;
 
 import com.lnko.model.entity.Product;
 import com.lnko.model.entity.Tariff;
-import com.lnko.model.service.ProductService;
-import com.lnko.model.service.TariffService;
-import com.lnko.model.service.impl.ProductServiceImpl;
-import com.lnko.model.service.impl.TariffServiceImpl;
+import com.lnko.service.ProductService;
+import com.lnko.service.TariffService;
+import com.lnko.service.impl.ProductServiceImpl;
+import com.lnko.service.impl.TariffServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
