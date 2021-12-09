@@ -47,7 +47,6 @@ public class JDBCProductDao implements ProductDao {
 
         } catch (SQLException e) {
             log.error("Cannot get products", e);
-            e.printStackTrace();
         }
         return products;
     }

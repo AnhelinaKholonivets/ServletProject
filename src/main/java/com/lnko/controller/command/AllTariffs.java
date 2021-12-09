@@ -1,5 +1,6 @@
 package com.lnko.controller.command;
 
+import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.entity.Role;
 import com.lnko.model.entity.Tariff;
 import com.lnko.service.TariffService;
@@ -14,7 +15,7 @@ public class AllTariffs implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         if ("GET".equalsIgnoreCase(request.getMethod())) {
-            TariffService tariffService = new TariffServiceImpl();
+            TariffService tariffService = new TariffServiceImpl(DaoFactory.getInstance());
             List<Tariff> tariffs = tariffService.getAllTariffs();
 
             request.setAttribute("tariffs", tariffs);
@@ -34,7 +35,7 @@ public class AllTariffs implements Command {
             String tariff = request.getParameter("id");
             Long tariffId = Long.valueOf(tariff);
 
-            TariffService tariffService = new TariffServiceImpl();
+            TariffService tariffService = new TariffServiceImpl(DaoFactory.getInstance());
             tariffService.deleteTariff(tariffId);
         }
 

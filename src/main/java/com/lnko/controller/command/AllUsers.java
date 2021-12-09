@@ -12,12 +12,6 @@ public class AllUsers implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-//        if ("GET".equalsIgnoreCase(request.getMethod())) {
-//            UserService userService = new UserServiceImpl();
-//            List<User> users = userService.getAllUsers();
-//            request.setAttribute("users", users);
-//            return "/WEB-INF/admin/allUsers.jsp";
-//        }
 
         if ("GET".equalsIgnoreCase(request.getMethod())) {
             UserService userService = new UserServiceImpl(DaoFactory.getInstance());

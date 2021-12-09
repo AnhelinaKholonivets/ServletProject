@@ -8,7 +8,11 @@ import com.lnko.service.TariffService;
 import java.util.List;
 
 public class TariffServiceImpl implements TariffService {
-    DaoFactory daoFactory = DaoFactory.getInstance();
+    private final DaoFactory daoFactory;
+
+    public TariffServiceImpl(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 
     @Override
     public List<Tariff> getAllTariffs(){

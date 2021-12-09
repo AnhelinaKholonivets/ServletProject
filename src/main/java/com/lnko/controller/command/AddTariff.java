@@ -1,5 +1,6 @@
 package com.lnko.controller.command;
 
+import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.entity.Product;
 import com.lnko.model.entity.Tariff;
 import com.lnko.service.ProductService;
@@ -30,7 +31,7 @@ public class AddTariff implements Command {
             tariff.setProduct(product);
             tariff.setPrice(new BigDecimal(request.getParameter("price")));
 
-            TariffService tariffService = new TariffServiceImpl();
+            TariffService tariffService = new TariffServiceImpl(DaoFactory.getInstance());
             tariffService.saveTariff(tariff);
             return "redirect:/app/admin/tariffs";
         }

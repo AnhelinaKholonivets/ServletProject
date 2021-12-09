@@ -42,13 +42,13 @@ public class JDBCUserDao implements UserDao {
 
         } catch (SQLException e) {
             log.error("Error create user", e);
-            e.printStackTrace();
         }
     }
 
     @Override
     public User findByLogin(String login) {
         User user = null;
+
         try (PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_LOGIN_QUERY)) {
             ps.setString(1, login);
             ResultSet resultSet = ps.executeQuery();
@@ -59,7 +59,6 @@ public class JDBCUserDao implements UserDao {
 
         } catch (SQLException e) {
             log.error("Cannot get user by login", e);
-            e.printStackTrace();
         }
         return user;
     }
@@ -67,6 +66,7 @@ public class JDBCUserDao implements UserDao {
     @Override
     public User findById(Long id) {
         User user = null;
+
         try (PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_ID_QUERY)) {
             ps.setLong(1, id);
             ResultSet resultSet = ps.executeQuery();
@@ -77,7 +77,6 @@ public class JDBCUserDao implements UserDao {
 
         } catch (Exception e) {
             log.error("Cannot get user by id", e);
-            e.printStackTrace();
         }
         return user;
     }
@@ -96,7 +95,6 @@ public class JDBCUserDao implements UserDao {
 
         } catch (SQLException e) {
             log.error("Cannot get users", e);
-            e.printStackTrace();
         }
         return users;
     }
@@ -121,7 +119,6 @@ public class JDBCUserDao implements UserDao {
 
         } catch (SQLException e) {
             log.error("Cannot get users", e);
-            e.printStackTrace();
         }
         return users;
     }
@@ -139,7 +136,6 @@ public class JDBCUserDao implements UserDao {
 
         } catch (SQLException e) {
             log.error("Cannot update balance for user", e);
-            e.printStackTrace();
         }
     }
 
@@ -152,7 +148,6 @@ public class JDBCUserDao implements UserDao {
 
         } catch (Exception e) {
             log.error("Cannot update status for user", e);
-            e.printStackTrace();
         }
     }
 
@@ -174,6 +169,7 @@ public class JDBCUserDao implements UserDao {
         if (resultSet == null) {
             return null;
         }
+
         User user = new User();
 
         user.setId(resultSet.getLong("id"));

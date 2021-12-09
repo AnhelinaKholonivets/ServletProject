@@ -47,7 +47,6 @@ public class JDBCOrderDao implements OrderDao {
             ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
         } catch (SQLException e) {
             log.error("Error create order", e);
-            e.printStackTrace();
         }
     }
 
@@ -68,7 +67,6 @@ public class JDBCOrderDao implements OrderDao {
 
         } catch (SQLException e) {
             log.error("Error create order", e);
-            e.printStackTrace();
         }
         return orders;
     }
@@ -87,7 +85,6 @@ public class JDBCOrderDao implements OrderDao {
 
         } catch (SQLException e) {
             log.error("Cannot get user by id", e);
-            e.printStackTrace();
         }
         return orders;
     }
@@ -116,7 +113,6 @@ public class JDBCOrderDao implements OrderDao {
 
         } catch (SQLException e) {
             log.error("Error save new orders", e);
-            e.printStackTrace();
         }
 
     }

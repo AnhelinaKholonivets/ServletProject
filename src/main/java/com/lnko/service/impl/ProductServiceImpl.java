@@ -3,10 +3,11 @@ package com.lnko.service.impl;
 import com.lnko.model.dao.DaoFactory;
 import com.lnko.model.dao.ProductDao;
 import com.lnko.model.entity.Product;
+import com.lnko.service.ProductService;
 
 import java.util.List;
 
-public class ProductServiceImpl implements com.lnko.service.ProductService {
+public class ProductServiceImpl implements ProductService {
     DaoFactory daoFactory = DaoFactory.getInstance();
 
     @Override

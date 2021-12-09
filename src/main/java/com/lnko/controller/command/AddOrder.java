@@ -20,7 +20,7 @@ public class AddOrder implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         if ("GET".equalsIgnoreCase(request.getMethod())) {
-            TariffService tariffService = new TariffServiceImpl();
+            TariffService tariffService = new TariffServiceImpl(DaoFactory.getInstance());
             List<Tariff> tariffs = tariffService.getAllTariffs();
             request.setAttribute("tariffs", tariffs);
             return "/WEB-INF/user/addOrder.jsp";

@@ -7,14 +7,9 @@ import java.util.List;
 
 public interface UserService {
     List<User> getAllUsers();
-
     User getUserByLogin(String login);
-
     void refileBalance(User user, BigDecimal addBalance);
-
     void blockUser(Long id);
-
     void saveNewUser(User user);
-
     List<User> getAllUsersPage(int page, int size);
 }

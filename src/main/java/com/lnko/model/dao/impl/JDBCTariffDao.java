@@ -43,7 +43,6 @@ public class JDBCTariffDao implements TariffDao {
 
         } catch (SQLException e) {
             log.error("Error create tariff", e);
-            e.printStackTrace();
         }
     }
 
@@ -59,7 +58,6 @@ public class JDBCTariffDao implements TariffDao {
 
         } catch (Exception e) {
             log.error("Cannot get tariff by id", e);
-            e.printStackTrace();
         }
         return tariff;
     }
@@ -77,7 +75,6 @@ public class JDBCTariffDao implements TariffDao {
 
         } catch (SQLException e) {
             log.error("Cannot get tariffs", e);
-            e.printStackTrace();
         }
 
         return tariffs;
@@ -107,7 +104,6 @@ public class JDBCTariffDao implements TariffDao {
 
         } catch (SQLException e) {
             log.error("Cannot get tariffs by ids", e);
-            e.printStackTrace();
         }
 
         return tariffs;
@@ -126,7 +122,6 @@ public class JDBCTariffDao implements TariffDao {
 
         } catch (Exception e) {
             log.error("Error delete tariff", e);
-            e.printStackTrace();
         }
     }
 
